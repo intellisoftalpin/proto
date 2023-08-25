@@ -1,0 +1,158 @@
+syntax = "proto3";
+
+option go_package = "/proto-gen/wallet";
+package wallet;
+
+service Wallet {
+    rpc DecodeTransaction(DecodeTransactionRequest) returns (DecodeTransactionResponse) {}
+    rpc SubmitTransaction(SubmitTransactionRequest) returns (SubmitTransactionResponse) {}
+
+    rpc GetTransaction(GetTransactionRequest) returns (GetTransactionResponse) {}
+    rpc CreateTransaction(CreateTransactionRequest) returns (CreateTransactionResponse) {}
+
+    rpc CheckTokenBalance(CheckTokenBalanceRequest) returns (Empty) {}
+    
+    rpc GetAllTokens(Empty) returns (GetAllTokensResponse) {}
+    rpc GetToken(TokenID) returns (GetTokenResponse) {}
+    rpc GetTokenPrice(TokenID) returns (GetTokenPriceResponse) {}
+}
+
+// --------------------------------------------------
+// messages for decode transaction service
+// --------------------------------------------------
+
+message DecodeTransactionRequest {
+    string tx = 1;
+    string policy_id = 2;
+    string asset_id = 3;
+}
+
+message DecodeTransactionResponse {
+    string status = 1;
+    string decoded_tx = 2;
+}
+
+// --------------------------------------------------
+// messages for submit transaction service
+// --------------------------------------------------
+
+message SubmitTransactionRequest {
+    string tx = 1;
+}
+
+message SubmitTransactionResponse {
+    string status = 1;
+    string tx_hash = 2;
+}
+
+// --------------------------------------------------
+// messages for get transaction service
+// --------------------------------------------------
+
+message GetTransactionRequest {
+    string tx_hash = 1;
+    string policy_id = 2;
+    string asset_id = 3;
+
+}
+
+message GetTransactionResponse {
+    string status = 1;
+    string decoded_tx = 2;
+    bytes  raw_tx = 3;
+}
+
+// --------------------------------------------------
+// messages for create transaction service
+// --------------------------------------------------
+
+message CreateTransactionRequest {
+    string tx = 1;
+    string policy_id = 2;
+    string asset_id = 3;
+}
+
+message CreateTransactionResponse {
+    string status = 1;
+    string decoded_tx = 2;
+    bytes  raw_tx = 3;
+    string tx_hash = 4;
+    
+    string address_to = 5;
+    string transfer_amount = 6;
+    string asset_amount = 7;
+    string asset_decimals = 8;
+    // string policy_id = 6;
+    // string asset_id = 7;
+    // string tx_cbor = 8;
+}
+
+// --------------------------------------------------
+// messages for check token balance service
+// --------------------------------------------------
+
+message CheckTokenBalanceRequest {
+    string tx = 1;
+    string policy_id = 2;
+    string asset_id = 3;
+}
+
+// --------------------------------------------------
+// messages for get all tokens service
+// --------------------------------------------------
+
+message GetAllTokensResponse {
+    repeated Token tokens = 1;
+}
+
+// --------------------------------------------------
+// messages for get token service
+// --------------------------------------------------
+
+message TokenID {
+    string token_id = 1; // policy_id + . + asset_id
+}
+
+message GetTokenResponse {
+    Token token = 1;
+}
+
+// --------------------------------------------------
+// messages for get token price service
+// --------------------------------------------------
+
+message GetTokenPriceResponse {
+    Price price = 1;
+}
+
+// --------------------------------------------------
+// common messages
+// --------------------------------------------------
+
+message Empty {}
+
+message Token {
+    string asset_name = 1;
+    string policy_id = 2;
+    string asset_id = 3;
+    string ticker = 4;
+    string logo = 5;
+    uint32 decimals = 6;
+
+    string address = 7;
+
+    Price  price = 8;
+
+    string asset_unit = 9;
+    uint64 asset_quantity = 10;
+    uint64 asset_decimals = 11;
+    uint64 fee = 12;
+    uint64 deposit = 13;
+    uint64 processing_fee = 14;
+    uint64 total_quantity = 15;
+    string reward_address = 16;
+}
+
+message Price {
+    uint64 price = 1;
+}
