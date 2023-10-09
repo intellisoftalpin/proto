@@ -18,6 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type WalletClient interface {
+	GetWalletNetworkInfo(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetWalletNetworkInfoResponse, error)
 	DecodeTransaction(ctx context.Context, in *DecodeTransactionRequest, opts ...grpc.CallOption) (*DecodeTransactionResponse, error)
 	SubmitTransaction(ctx context.Context, in *SubmitTransactionRequest, opts ...grpc.CallOption) (*SubmitTransactionResponse, error)
 	GetTransaction(ctx context.Context, in *GetTransactionRequest, opts ...grpc.CallOption) (*GetTransactionResponse, error)
@@ -34,6 +35,15 @@ type walletClient struct {
 
 func NewWalletClient(cc grpc.ClientConnInterface) WalletClient {
 	return &walletClient{cc}
+}
+
+func (c *walletClient) GetWalletNetworkInfo(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetWalletNetworkInfoResponse, error) {
+	out := new(GetWalletNetworkInfoResponse)
+	err := c.cc.Invoke(ctx, "/wallet.Wallet/GetWalletNetworkInfo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *walletClient) DecodeTransaction(ctx context.Context, in *DecodeTransactionRequest, opts ...grpc.CallOption) (*DecodeTransactionResponse, error) {
@@ -112,6 +122,7 @@ func (c *walletClient) GetTokenPrice(ctx context.Context, in *TokenID, opts ...g
 // All implementations must embed UnimplementedWalletServer
 // for forward compatibility
 type WalletServer interface {
+	GetWalletNetworkInfo(context.Context, *Empty) (*GetWalletNetworkInfoResponse, error)
 	DecodeTransaction(context.Context, *DecodeTransactionRequest) (*DecodeTransactionResponse, error)
 	SubmitTransaction(context.Context, *SubmitTransactionRequest) (*SubmitTransactionResponse, error)
 	GetTransaction(context.Context, *GetTransactionRequest) (*GetTransactionResponse, error)
@@ -127,6 +138,9 @@ type WalletServer interface {
 type UnimplementedWalletServer struct {
 }
 
+func (UnimplementedWalletServer) GetWalletNetworkInfo(context.Context, *Empty) (*GetWalletNetworkInfoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetWalletNetworkInfo not implemented")
+}
 func (UnimplementedWalletServer) DecodeTransaction(context.Context, *DecodeTransactionRequest) (*DecodeTransactionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DecodeTransaction not implemented")
 }
@@ -162,6 +176,24 @@ type UnsafeWalletServer interface {
 
 func RegisterWalletServer(s grpc.ServiceRegistrar, srv WalletServer) {
 	s.RegisterService(&Wallet_ServiceDesc, srv)
+}
+
+func _Wallet_GetWalletNetworkInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WalletServer).GetWalletNetworkInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/wallet.Wallet/GetWalletNetworkInfo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WalletServer).GetWalletNetworkInfo(ctx, req.(*Empty))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _Wallet_DecodeTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -315,6 +347,10 @@ var Wallet_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "wallet.Wallet",
 	HandlerType: (*WalletServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetWalletNetworkInfo",
+			Handler:    _Wallet_GetWalletNetworkInfo_Handler,
+		},
 		{
 			MethodName: "DecodeTransaction",
 			Handler:    _Wallet_DecodeTransaction_Handler,
