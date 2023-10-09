@@ -1040,7 +1040,7 @@ type GetWalletNetworkInfoResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	NetworkInfo  *NetworkInfp  `protobuf:"bytes,1,opt,name=network_info,json=networkInfo,proto3" json:"network_info,omitempty"`
+	NetworkInfo  *NetworkInfo  `protobuf:"bytes,1,opt,name=network_info,json=networkInfo,proto3" json:"network_info,omitempty"`
 	NetworkTip   *NetworkTip   `protobuf:"bytes,2,opt,name=network_tip,json=networkTip,proto3" json:"network_tip,omitempty"`
 	NextEpoch    *NextEpoch    `protobuf:"bytes,3,opt,name=next_epoch,json=nextEpoch,proto3" json:"next_epoch,omitempty"`
 	NodeEra      string        `protobuf:"bytes,4,opt,name=node_era,json=nodeEra,proto3" json:"node_era,omitempty"`
@@ -1081,7 +1081,7 @@ func (*GetWalletNetworkInfoResponse) Descriptor() ([]byte, []int) {
 	return file_wallet_wallet_proto_rawDescGZIP(), []int{16}
 }
 
-func (x *GetWalletNetworkInfoResponse) GetNetworkInfo() *NetworkInfp {
+func (x *GetWalletNetworkInfoResponse) GetNetworkInfo() *NetworkInfo {
 	if x != nil {
 		return x.NetworkInfo
 	}
@@ -1130,7 +1130,7 @@ func (x *GetWalletNetworkInfoResponse) GetWalletMode() string {
 	return ""
 }
 
-type NetworkInfp struct {
+type NetworkInfo struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -1139,8 +1139,8 @@ type NetworkInfp struct {
 	ProtocolMagic uint64 `protobuf:"varint,2,opt,name=protocol_magic,json=protocolMagic,proto3" json:"protocol_magic,omitempty"`
 }
 
-func (x *NetworkInfp) Reset() {
-	*x = NetworkInfp{}
+func (x *NetworkInfo) Reset() {
+	*x = NetworkInfo{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_wallet_wallet_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1148,13 +1148,13 @@ func (x *NetworkInfp) Reset() {
 	}
 }
 
-func (x *NetworkInfp) String() string {
+func (x *NetworkInfo) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*NetworkInfp) ProtoMessage() {}
+func (*NetworkInfo) ProtoMessage() {}
 
-func (x *NetworkInfp) ProtoReflect() protoreflect.Message {
+func (x *NetworkInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_wallet_wallet_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1166,19 +1166,19 @@ func (x *NetworkInfp) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NetworkInfp.ProtoReflect.Descriptor instead.
-func (*NetworkInfp) Descriptor() ([]byte, []int) {
+// Deprecated: Use NetworkInfo.ProtoReflect.Descriptor instead.
+func (*NetworkInfo) Descriptor() ([]byte, []int) {
 	return file_wallet_wallet_proto_rawDescGZIP(), []int{17}
 }
 
-func (x *NetworkInfp) GetNetworkId() string {
+func (x *NetworkInfo) GetNetworkId() string {
 	if x != nil {
 		return x.NetworkId
 	}
 	return ""
 }
 
-func (x *NetworkInfp) GetProtocolMagic() uint64 {
+func (x *NetworkInfo) GetProtocolMagic() uint64 {
 	if x != nil {
 		return x.ProtocolMagic
 	}
@@ -1619,7 +1619,7 @@ var file_wallet_wallet_proto_rawDesc = []byte{
 	0x6e, 0x66, 0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x36, 0x0a, 0x0c, 0x6e,
 	0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x5f, 0x69, 0x6e, 0x66, 0x6f, 0x18, 0x01, 0x20, 0x01, 0x28,
 	0x0b, 0x32, 0x13, 0x2e, 0x77, 0x61, 0x6c, 0x6c, 0x65, 0x74, 0x2e, 0x4e, 0x65, 0x74, 0x77, 0x6f,
-	0x72, 0x6b, 0x49, 0x6e, 0x66, 0x70, 0x52, 0x0b, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x49,
+	0x72, 0x6b, 0x49, 0x6e, 0x66, 0x6f, 0x52, 0x0b, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x49,
 	0x6e, 0x66, 0x6f, 0x12, 0x33, 0x0a, 0x0b, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x5f, 0x74,
 	0x69, 0x70, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x12, 0x2e, 0x77, 0x61, 0x6c, 0x6c, 0x65,
 	0x74, 0x2e, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x54, 0x69, 0x70, 0x52, 0x0a, 0x6e, 0x65,
@@ -1637,7 +1637,7 @@ var file_wallet_wallet_proto_rawDesc = []byte{
 	0x73, 0x79, 0x6e, 0x63, 0x50, 0x72, 0x6f, 0x67, 0x72, 0x65, 0x73, 0x73, 0x12, 0x1f, 0x0a, 0x0b,
 	0x77, 0x61, 0x6c, 0x6c, 0x65, 0x74, 0x5f, 0x6d, 0x6f, 0x64, 0x65, 0x18, 0x07, 0x20, 0x01, 0x28,
 	0x09, 0x52, 0x0a, 0x77, 0x61, 0x6c, 0x6c, 0x65, 0x74, 0x4d, 0x6f, 0x64, 0x65, 0x22, 0x53, 0x0a,
-	0x0b, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x49, 0x6e, 0x66, 0x70, 0x12, 0x1d, 0x0a, 0x0a,
+	0x0b, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x1d, 0x0a, 0x0a,
 	0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
 	0x52, 0x09, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x49, 0x64, 0x12, 0x25, 0x0a, 0x0e, 0x70,
 	0x72, 0x6f, 0x74, 0x6f, 0x63, 0x6f, 0x6c, 0x5f, 0x6d, 0x61, 0x67, 0x69, 0x63, 0x18, 0x02, 0x20,
@@ -1758,7 +1758,7 @@ var file_wallet_wallet_proto_goTypes = []interface{}{
 	(*Token)(nil),                        // 14: wallet.Token
 	(*Price)(nil),                        // 15: wallet.Price
 	(*GetWalletNetworkInfoResponse)(nil), // 16: wallet.GetWalletNetworkInfoResponse
-	(*NetworkInfp)(nil),                  // 17: wallet.NetworkInfp
+	(*NetworkInfo)(nil),                  // 17: wallet.NetworkInfo
 	(*NetworkTip)(nil),                   // 18: wallet.NetworkTip
 	(*NextEpoch)(nil),                    // 19: wallet.NextEpoch
 	(*NodeTip)(nil),                      // 20: wallet.NodeTip
@@ -1770,7 +1770,7 @@ var file_wallet_wallet_proto_depIdxs = []int32{
 	14, // 1: wallet.GetTokenResponse.token:type_name -> wallet.Token
 	15, // 2: wallet.GetTokenPriceResponse.price:type_name -> wallet.Price
 	15, // 3: wallet.Token.price:type_name -> wallet.Price
-	17, // 4: wallet.GetWalletNetworkInfoResponse.network_info:type_name -> wallet.NetworkInfp
+	17, // 4: wallet.GetWalletNetworkInfoResponse.network_info:type_name -> wallet.NetworkInfo
 	18, // 5: wallet.GetWalletNetworkInfoResponse.network_tip:type_name -> wallet.NetworkTip
 	19, // 6: wallet.GetWalletNetworkInfoResponse.next_epoch:type_name -> wallet.NextEpoch
 	20, // 7: wallet.GetWalletNetworkInfoResponse.node_tip:type_name -> wallet.NodeTip
@@ -2013,7 +2013,7 @@ func file_wallet_wallet_proto_init() {
 			}
 		}
 		file_wallet_wallet_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*NetworkInfp); i {
+			switch v := v.(*NetworkInfo); i {
 			case 0:
 				return &v.state
 			case 1:

@@ -164,7 +164,7 @@ message Price {
 // --------------------------------------------------
 
 message GetWalletNetworkInfoResponse {
-    NetworkInfp network_info = 1;
+    NetworkInfo network_info = 1;
     NetworkTip network_tip = 2;
     NextEpoch next_epoch = 3;
     string node_era = 4;
@@ -173,7 +173,7 @@ message GetWalletNetworkInfoResponse {
     string wallet_mode = 7;
 }
 
-message NetworkInfp {
+message NetworkInfo {
     string network_id = 1;
     uint64 protocol_magic = 2;
 }
