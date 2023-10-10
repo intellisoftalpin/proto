@@ -19,6 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type WalletClient interface {
 	GetWalletNetworkInfo(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetWalletNetworkInfoResponse, error)
+	GetWalletsState(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetWalletsStateResponse, error)
 	DecodeTransaction(ctx context.Context, in *DecodeTransactionRequest, opts ...grpc.CallOption) (*DecodeTransactionResponse, error)
 	SubmitTransaction(ctx context.Context, in *SubmitTransactionRequest, opts ...grpc.CallOption) (*SubmitTransactionResponse, error)
 	GetTransaction(ctx context.Context, in *GetTransactionRequest, opts ...grpc.CallOption) (*GetTransactionResponse, error)
@@ -40,6 +41,15 @@ func NewWalletClient(cc grpc.ClientConnInterface) WalletClient {
 func (c *walletClient) GetWalletNetworkInfo(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetWalletNetworkInfoResponse, error) {
 	out := new(GetWalletNetworkInfoResponse)
 	err := c.cc.Invoke(ctx, "/wallet.Wallet/GetWalletNetworkInfo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *walletClient) GetWalletsState(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetWalletsStateResponse, error) {
+	out := new(GetWalletsStateResponse)
+	err := c.cc.Invoke(ctx, "/wallet.Wallet/GetWalletsState", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -123,6 +133,7 @@ func (c *walletClient) GetTokenPrice(ctx context.Context, in *TokenID, opts ...g
 // for forward compatibility
 type WalletServer interface {
 	GetWalletNetworkInfo(context.Context, *Empty) (*GetWalletNetworkInfoResponse, error)
+	GetWalletsState(context.Context, *Empty) (*GetWalletsStateResponse, error)
 	DecodeTransaction(context.Context, *DecodeTransactionRequest) (*DecodeTransactionResponse, error)
 	SubmitTransaction(context.Context, *SubmitTransactionRequest) (*SubmitTransactionResponse, error)
 	GetTransaction(context.Context, *GetTransactionRequest) (*GetTransactionResponse, error)
@@ -140,6 +151,9 @@ type UnimplementedWalletServer struct {
 
 func (UnimplementedWalletServer) GetWalletNetworkInfo(context.Context, *Empty) (*GetWalletNetworkInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetWalletNetworkInfo not implemented")
+}
+func (UnimplementedWalletServer) GetWalletsState(context.Context, *Empty) (*GetWalletsStateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetWalletsState not implemented")
 }
 func (UnimplementedWalletServer) DecodeTransaction(context.Context, *DecodeTransactionRequest) (*DecodeTransactionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DecodeTransaction not implemented")
@@ -192,6 +206,24 @@ func _Wallet_GetWalletNetworkInfo_Handler(srv interface{}, ctx context.Context, 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(WalletServer).GetWalletNetworkInfo(ctx, req.(*Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Wallet_GetWalletsState_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WalletServer).GetWalletsState(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/wallet.Wallet/GetWalletsState",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WalletServer).GetWalletsState(ctx, req.(*Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -350,6 +382,10 @@ var Wallet_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetWalletNetworkInfo",
 			Handler:    _Wallet_GetWalletNetworkInfo_Handler,
+		},
+		{
+			MethodName: "GetWalletsState",
+			Handler:    _Wallet_GetWalletsState_Handler,
 		},
 		{
 			MethodName: "DecodeTransaction",

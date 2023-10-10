@@ -5,6 +5,7 @@ package wallet;
 
 service Wallet {
     rpc GetWalletNetworkInfo(Empty) returns (GetWalletNetworkInfoResponse) {}
+    rpc GetWalletsState(Empty) returns (GetWalletsStateResponse) {}
 
     rpc DecodeTransaction(DecodeTransactionRequest) returns (DecodeTransactionResponse) {}
     rpc SubmitTransaction(SubmitTransactionRequest) returns (SubmitTransactionResponse) {}
@@ -206,4 +207,17 @@ message SyncProgress {
 message Quantity {
     uint64 quantity = 1;
     string unit = 2;
+}
+
+// --------------------------------------------------
+// messages for get wallet state service
+// --------------------------------------------------
+
+message GetWalletsStateResponse {
+    repeated WalletState wallets_state = 1;
+}
+
+message WalletState {
+    string status = 1;
+    Quantity progress = 2;
 }
