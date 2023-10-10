@@ -201,11 +201,16 @@ message NodeTip {
 
 message SyncProgress {
     string status = 1;
-    Quantity progress = 2;
+    Progress progress = 2;
 }
 
 message Quantity {
     uint64 quantity = 1;
+    string unit = 2;
+}
+
+message Progress {
+    float quantity = 1;
     string unit = 2;
 }
 
@@ -219,5 +224,5 @@ message GetWalletsStateResponse {
 
 message WalletState {
     string status = 1;
-    Quantity progress = 2;
+    Progress progress = 2;
 }
